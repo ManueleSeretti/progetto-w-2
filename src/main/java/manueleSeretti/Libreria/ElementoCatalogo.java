@@ -3,10 +3,10 @@ package manueleSeretti.Libreria;
 import java.util.Random;
 
 public abstract class ElementoCatalogo {
-    private int codIsbm;
-    private String titolo;
-    private int anno;
-    private int nPag;
+    protected int codIsbm;
+    protected String titolo;
+    protected int anno;
+    protected int nPag;
 
     public ElementoCatalogo(String titolo, int anno, int nPag) {
         Random rndm = new Random();
@@ -47,4 +47,6 @@ public abstract class ElementoCatalogo {
     public void setnPag(int nPag) {
         this.nPag = nPag;
     }
+
+
 }
