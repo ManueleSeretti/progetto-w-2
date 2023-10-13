@@ -25,10 +25,10 @@ public class Application {
         List<ElementoCatalogo> listaRiviste = new ArrayList<>();
         List<ElementoCatalogo> catalogo = new ArrayList<>();
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             listaLibri.add(libroSupplier.get());
         }
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             listaRiviste.add(rivistaSupplier.get());
         }
 
@@ -195,11 +195,11 @@ public class Application {
         lista2.forEach(e -> listaRiv.add((Rivista) e));
 
         for (Libro l : listaLib) {
-            toWrite += l.getTitolo() + "@" + l.getCodIsbm() + "@" + l.getAnno() + "@" + l.getAutore() + "@" + l.getGenere() + "#";
+            toWrite += l.getTitolo() + "@" + l.getAnno() + "@" + l.getnPag() + "@" + l.getAutore() + "@" + l.getGenere() + "#";
         }
         toWrite += "fine-libri";
         for (Rivista r : listaRiv) {
-            toWrite += r.getTitolo() + "@" + r.getCodIsbm() + "@" + r.getAnno() + "@" + r.getPeriodicità() + "#";
+            toWrite += r.getTitolo() + "@" + r.getAnno() + "@" + r.getnPag() + "@" + r.getPeriodicità() + "#";
         }
         File file = new File("catalogo.txt");
 
@@ -221,6 +221,7 @@ public class Application {
             String[] dettagliLibro = s.split("@");
             listaLibri.add(new Libro(dettagliLibro[0], Integer.parseInt(dettagliLibro[1]), Integer.parseInt(dettagliLibro[2]), dettagliLibro[3], dettagliLibro[4]));
         }
+
         for (String s : riviste) {
             String[] dettagliRivista = s.split("@");
             listaRiviste.add(new Rivista(dettagliRivista[0], Integer.parseInt(dettagliRivista[1]), Integer.parseInt(dettagliRivista[2]), Periodicità.valueOf(dettagliRivista[3])));
@@ -233,11 +234,6 @@ public class Application {
 
 
     }
-//        return splitElementiString.stream().map(stringa -> {
-//
-//            String[] productInfos = stringa.split("@");
-//            return new Product(productInfos[0], productInfos[1], Double.parseDouble(productInfos[2]));
-//        }).toList();
 
 
 }
