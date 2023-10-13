@@ -23,18 +23,19 @@ public class Application {
 
         List<ElementoCatalogo> listaLibri = new ArrayList<>();
         List<ElementoCatalogo> listaRiviste = new ArrayList<>();
+        List<ElementoCatalogo> catalogo = new ArrayList<>();
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 1; i++) {
             listaLibri.add(libroSupplier.get());
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             listaRiviste.add(rivistaSupplier.get());
         }
 
         //listaLibri.add(aggiungiLibro());
         // listaRiviste.add(aggiungiRivista());
         listaLibri.forEach(System.out::println);
-        //listaRiviste.forEach(System.out::println);
+        listaRiviste.forEach(System.out::println);
 
 
         //EliminaElementoIsbn(listaRiviste);
@@ -45,7 +46,19 @@ public class Application {
 
         // ricercaAutore(listaLibri);
 
-        saveToDisk(listaLibri, listaRiviste);
+        try {
+            saveToDisk(listaLibri, listaRiviste);
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+
+        try {
+            catalogo = loadFromDisk();
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+
+        catalogo.forEach(System.out::println);
     }
 
     public static Libro aggiungiLibro() {
@@ -189,7 +202,42 @@ public class Application {
             toWrite += r.getTitolo() + "@" + r.getCodIsbm() + "@" + r.getAnno() + "@" + r.getPeriodicità() + "#";
         }
         File file = new File("catalogo.txt");
+
         FileUtils.writeStringToFile(file, toWrite, "UTF-8");
     }
+
+    public static List<ElementoCatalogo> loadFromDisk() throws IOException {
+        File file = new File("catalogo.txt");
+        List<Libro> listaLibri = new ArrayList<>();
+        List<Rivista> listaRiviste = new ArrayList<>();
+        String fileString = FileUtils.readFileToString(file, "UTF-8");
+
+        List<String> splitTipo = Arrays.asList(fileString.split("fine-libri"));
+
+        String[] libri = splitTipo.get(0).split("#");
+        String[] riviste = splitTipo.get(1).split("#");
+
+        for (String s : libri) {
+            String[] dettagliLibro = s.split("@");
+            listaLibri.add(new Libro(dettagliLibro[0], Integer.parseInt(dettagliLibro[1]), Integer.parseInt(dettagliLibro[2]), dettagliLibro[3], dettagliLibro[4]));
+        }
+        for (String s : riviste) {
+            String[] dettagliRivista = s.split("@");
+            listaRiviste.add(new Rivista(dettagliRivista[0], Integer.parseInt(dettagliRivista[1]), Integer.parseInt(dettagliRivista[2]), Periodicità.valueOf(dettagliRivista[3])));
+        }
+
+        List<ElementoCatalogo> catalogo = new ArrayList<>();
+        catalogo.addAll(listaLibri);
+        catalogo.addAll(listaRiviste);
+        return catalogo;
+
+
+    }
+//        return splitElementiString.stream().map(stringa -> {
+//
+//            String[] productInfos = stringa.split("@");
+//            return new Product(productInfos[0], productInfos[1], Double.parseDouble(productInfos[2]));
+//        }).toList();
+
 
 }
