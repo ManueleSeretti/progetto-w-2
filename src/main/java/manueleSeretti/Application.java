@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 public class Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner input = new Scanner(System.in);
         Faker faker = new Faker(Locale.ITALY);
         Random rndm = new Random();
@@ -43,7 +43,9 @@ public class Application {
 
         //ricercaAnno(listaRiviste);
 
-        ricercaAutore(listaLibri);
+        // ricercaAutore(listaLibri);
+
+        saveToDisk(listaLibri, listaRiviste);
     }
 
     public static Libro aggiungiLibro() {
@@ -186,7 +188,7 @@ public class Application {
         for (Rivista r : listaRiv) {
             toWrite += r.getTitolo() + "@" + r.getCodIsbm() + "@" + r.getAnno() + "@" + r.getPeriodicità() + "#";
         }
-        File file = new File("products.txt");
+        File file = new File("catalogo.txt");
         FileUtils.writeStringToFile(file, toWrite, "UTF-8");
     }
 
