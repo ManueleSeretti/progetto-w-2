@@ -175,7 +175,7 @@ public class Application {
 
         }
 
-
+        input.close();
     }
 
     public static Libro aggiungiLibro() {
@@ -198,7 +198,6 @@ public class Application {
         autore = input.nextLine();
         System.out.println("inserisci genere");
         genere = input.nextLine();
-        input.close();
 
 
         return new Libro(title, anno, pag, autore, genere);
@@ -218,7 +217,7 @@ public class Application {
                 System.out.println("inserisci numero di pagine");
                 pag = Integer.parseInt(input.nextLine());
 
-                input.close();
+              
                 break;
             } catch (Exception ex) {
                 System.out.println("Il valore inserito non è accettabile!!!");
